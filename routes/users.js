@@ -3,21 +3,28 @@
  * users路由
  * */
 import koaRouter from 'koa-router'
+import User from '../models/User'
 const router = koaRouter();
 
-/*获取用户*/
-router.get('/', async (ctx, next) => {
+router
+/**
+ *  获取单个用户信息
+ * */
+.get('/:_id', async (ctx, next) => {
+    const {_id} = ctx.params;
+    const user = await new User({_id}).findOne();
+    ctx.body = {data: user};
+})
 
-  const user = await global.db.findOneAsync({
-    name: 'tom'
-  });
-
-  ctx.body = user;
-
-});
-
-router.post('/', async (ctx, next) => {
-
-});
+/**
+ * 新增
+ * */
+.post('/', async (ctx, next) => {
+    const {name, phone, password} = ctx.request.body;
+    const user = new User();
+    const result = await user.insert({name, phone, password});
+    ctx.body = {data: result};
+})
+;
 
 export default router

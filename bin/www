@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+require('runkoa')()
+
+var app = require('../app');
+var debug = require('debug')('demo:server');
+var http = require('http');
+
+var port = process.env.PORT || '3000';
+var server = http.createServer(app.callback());
+server.listen(port, function (err) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  console.log('listening on http://127.0.0.1:' + port);
+});
+
+
+

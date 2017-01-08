@@ -2,6 +2,8 @@
  * Created by Administrator on 2017/1/6 0006.
  */
 
+
+
 /**
  * 用户类
  * */
@@ -20,19 +22,22 @@ export default class User {
         this.name = name;
     }
 
-     findOne({_id=this._id} = {}){
-         console.log('_id', _id);
-         return global.db.findOneAsync({_id});
+    /**
+     * params:查询参数,
+     * fields: 返回哪些字段，不填，返回全部
+     * */
+    find(params, fields){
+        return global.db.users.findAsync(params, fields);
     }
 
-    find(params){
-        console.log(params);
-        return global.db.findAsync(params);
+    findOne(params, fields){
+        console.log(params, fields)
+        return global.db.users.findOneAsync(params, fields);
     }
 
     insert({phone=this.phone, password=this.password, name=this.name} = {}){
         console.log(phone, password, name)
-        return global.db.insertAsync({phone, password, name});
+        return global.db.users.insertAsync({phone, password, name});
     }
 
 }

@@ -14,11 +14,14 @@ const resFormate = require('./middlewares/res-formate');
 
 const nedb = require('nedb');
 const Promise = require("bluebird");
-global.db = new nedb({
-  filename:  __dirname + '/data/save.db',
-  autoload: true
-})
-Promise.promisifyAll(global.db);
+
+// 数据库配置
+global.db = {};
+global.db.users = new nedb({filename: __dirname + '/data/users.db', autoload: true, timestampData: true});
+global.db.users.ensureIndex({ fieldName: 'phone', unique: true }, function (err) {});
+global.db.articles = new nedb({filename: __dirname + '/data/articles.db', autoload: true, timestampData: true});
+Promise.promisifyAll(global.db.users);
+Promise.promisifyAll(global.db.articles);
 
 
 const routes = require('./routes');
@@ -55,6 +58,7 @@ app.on('error', function(err, ctx){
   ctx.body = err;
   ctx.res.statusCode = 500;
   ctx.res.end(`${err.stack}`);
+  console.log(err)
   logger.error('server error', err, ctx);
 });
 

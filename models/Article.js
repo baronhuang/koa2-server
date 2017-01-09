@@ -38,4 +38,9 @@ export default class Article {
         return global.db.articles.insertAsync({content, like, publicity, createBy});
     }
 
+    update(query, update = {content:this.content,  publicity:this.publicity}){
+        console.log(444, query, update)
+        return global.db.articles.updateAsync(query, update);
+    }
+
 }

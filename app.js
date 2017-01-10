@@ -9,6 +9,8 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')({formLimit: '10mb'});
 const logger = require('koa-logger');
 const koaStatic = require('koa-static');
+const session = require('koa-session2').default;
+
 
 /*------自定义middlewares------*/
 const resFormate = require('./middlewares/res-formate');
@@ -26,7 +28,10 @@ Promise.promisifyAll(global.db.articles);
 
 
 const routes = require('./routes');
-// const users = require('./routes/users');
+
+app.use(session({
+  maxAge: 1000000000
+}));
 
 // middlewares
 app.use(convert(bodyparser));
@@ -44,6 +49,7 @@ app.use(resFormate());
 
 // logger
 app.use(async (ctx, next) => {
+  ctx.session.user = {"phone":"13143751187","password":"123","name":"ben","_id":"5EEUeuyeCcnwF0B5"};
   const start = new Date();
   await next();
   const ms = new Date() - start;
@@ -61,8 +67,8 @@ app.on('error', function(err, ctx){
   ctx.body = err;
   ctx.res.statusCode = 500;
   ctx.res.end(`${err.stack}`);
-  console.log(err)
-  logger.error('server error', err, ctx);
+  console.error(err)
+  // logger.error('server error', err, ctx);
 });
 
 

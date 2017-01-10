@@ -32,7 +32,7 @@ export default class User {
 
     findOne(query, fields){
         console.log(query, fields)
-        return global.db.users.findOneAsync(params, fields);
+        return global.db.users.findOneAsync(query, fields);
     }
 
     insert({phone=this.phone, password=this.password, name=this.name} = {}){

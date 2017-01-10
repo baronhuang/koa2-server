@@ -19,6 +19,7 @@ router
         const {_id, phone, password, name} = ctx.query;
         const user = await new User().findOne({phone, password}, {password: 0});
         if(user){
+            ctx.session.user = user;
             ctx.body = {data: user};
         }else{
             ctx.body = { statusCode: 500, msg: '密码或账号不对'};
@@ -46,6 +47,7 @@ router
 
                 const result = await user.insert();
                 delete result.password;
+                ctx.session.user = result;
                 ctx.body = {data: result};
             }
         }else{

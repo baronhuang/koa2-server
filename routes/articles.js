@@ -28,7 +28,7 @@ router
 
     /*列表查询*/
     .get('/list', async (ctx, next) => {
-        const {_id, phone, password, name} = ctx.query;
+        const {_id, phone, name} = ctx.query;
         const articles = await new Article().find({});
         if(articles.length > 0){
             let createIds = articles.map((item) => item.createBy);
@@ -67,7 +67,20 @@ router
         }else{
             ctx.body = {statusCode: 500, msg: '更新失败'};
         }
+    })
 
+    /**
+     * 删除
+     * */
+    .delete('/', async (ctx, next) => {
+        const {_id} = ctx.query;
+        const article = await new Article().remove({_id});
+        ctx.body = ctx.body = {data: article};
+        if(article){
+            ctx.body = {data: article};
+        }else{
+            ctx.body = {statusCode: 500, msg: '更新失败'};
+        }
     })
 ;
 

@@ -6,8 +6,9 @@ const co = require('co');
 const convert = require('koa-convert');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
-const bodyparser = require('koa-bodyparser')();
+const bodyparser = require('koa-bodyparser')({formLimit: '10mb'});
 const logger = require('koa-logger');
+const koaStatic = require('koa-static');
 
 /*------自定义middlewares------*/
 const resFormate = require('./middlewares/res-formate');
@@ -31,7 +32,9 @@ const routes = require('./routes');
 app.use(convert(bodyparser));
 app.use(convert(json()));
 // app.use(convert(logger()));
-app.use(convert(require('koa-static')(__dirname + '/public')));
+/*静态目录*/
+app.use(convert(koaStatic(__dirname + '/public')));
+app.use(convert(koaStatic(__dirname + '/uploads')));
 
 app.use(convert(views(__dirname + '/views', {
   extension: 'jade'

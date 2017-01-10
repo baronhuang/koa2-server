@@ -23,15 +23,15 @@ export default class User {
     }
 
     /**
-     * params:查询参数,
+     * query:查询参数,
      * fields: 返回哪些字段，不填，返回全部
      * */
-    find(params, fields){
-        return global.db.users.findAsync(params, fields);
+    find(query, fields){
+        return global.db.users.findAsync(query, fields);
     }
 
-    findOne(params, fields){
-        console.log(params, fields)
+    findOne(query, fields){
+        console.log(query, fields)
         return global.db.users.findOneAsync(params, fields);
     }
 

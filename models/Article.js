@@ -25,12 +25,16 @@ export default class Article {
      * params:查询参数,
      * fields: 返回哪些字段，不填，返回全部
      * */
-    find(params, fields){
-        return global.db.articles.findAsync(params, fields);
+    find(query, fields, sort = {createdAt: -1}){
+        return new Promise(function (resolve) {
+            global.db.articles.find(query, fields).sort(sort).exec(function (err, data) {
+                resolve(data);
+            })
+        })
     }
 
-    findOne(params, fields){
-        return global.db.articles.findOneAsync(params, fields);
+    findOne(query, fields){
+        return global.db.articles.findOneAsync(query, fields);
     }
 
     insert({content=this.content, like=this.like, publicity=this.publicity, createBy=this.createBy} = {}){
@@ -39,8 +43,11 @@ export default class Article {
     }
 
     update(query, update = {content:this.content,  publicity:this.publicity}){
-        console.log(444, query, update)
-        return global.db.articles.updateAsync(query, update);
+        return global.db.articles.updateAsync(query, {$set: update});
+    }
+
+    remove(query){
+        return global.db.articles.removeAsync(query);
     }
 
 }

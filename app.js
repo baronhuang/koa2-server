@@ -25,7 +25,7 @@ global.db.users.ensureIndex({ fieldName: 'phone', unique: true }, function (err)
 global.db.articles = new nedb({filename: __dirname + '/data/articles.db', autoload: true, timestampData: true});
 Promise.promisifyAll(global.db.users);
 Promise.promisifyAll(global.db.articles);
-
+global.localUrl = 'http://localhost:3000/';
 
 const routes = require('./routes');
 

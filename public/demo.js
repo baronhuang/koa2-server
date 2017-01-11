@@ -1,5 +1,6 @@
 function uploadFile(){
   var formData = new FormData($("#frmUploadFile")[0]);
+  console.log(444, formData)
   $.ajax({
     url: 'api/users/avatar?userId=t3r6FiYgI8YDE0oZ',
     type: 'POST',

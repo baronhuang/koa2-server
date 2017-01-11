@@ -43,7 +43,7 @@ export default {
                 console.log(targetPath);
                 //copy file
                 fs.createReadStream(streamPath).pipe(fs.createWriteStream(targetPath));
-                resolve({statusCode: 200, url: `${ctx.request.accept.headers.origin}/${filePath}/${fileName}`});
+                resolve({statusCode: 200, url: `${global.localUrl}/${filePath}/${fileName}`});
             }else{
                 resolve({ statusCode: 500, msg: '请选择图片文件格式' });
             }

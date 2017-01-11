@@ -35,9 +35,13 @@ export default class User {
         return global.db.users.findOneAsync(query, fields);
     }
 
+    update(query, update = {}){
+        return global.db.articles.updateAsync(query, {$set: update});
+    }
+
     insert({phone=this.phone, password=this.password, name=this.name} = {}){
-        console.log(phone, password, name)
-        return global.db.users.insertAsync({phone, password, name});
+        const avatar = global.localUrl + '/users/avatar.jpg';
+        return global.db.users.insertAsync({phone, password, name, avatar});
     }
 
 }

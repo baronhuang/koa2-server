@@ -25,8 +25,8 @@ global.db.users.ensureIndex({ fieldName: 'phone', unique: true }, function (err)
 global.db.articles = new nedb({filename: __dirname + '/data/articles.db', autoload: true, timestampData: true});
 Promise.promisifyAll(global.db.users);
 Promise.promisifyAll(global.db.articles);
-global.localUrl = 'http://localhost:3000/';
-
+global.localUrl = 'http://' + require('./utils').getIPAdress() + ':3000/';
+console.log(global.localUrl)
 const routes = require('./routes');
 
 app.use(session({
@@ -49,7 +49,6 @@ app.use(resFormate());
 
 // logger
 app.use(async (ctx, next) => {
-  ctx.session.user = {"phone":"13143751187","password":"123","name":"ben","_id":"5EEUeuyeCcnwF0B5"};
   const start = new Date();
   await next();
   const ms = new Date() - start;
@@ -57,9 +56,7 @@ app.use(async (ctx, next) => {
 });
 
 router.use('/api', routes.routes(), routes.allowedMethods());
-// router.use('/users', users.routes(), users.allowedMethods());
 app.use(router.routes(), router.allowedMethods());
-// response
 
 
 /*catch errors*/

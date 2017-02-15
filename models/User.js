@@ -15,11 +15,12 @@ export default class User {
      * password: 密码,
      * name: 昵称,
      * */
-    constructor({_id, phone, password, name} = {}){
+    constructor({_id, phone, password, name, avatar} = {}){
         this._id = _id;
         this.phone = phone;
         this.password = password;
         this.name = name;
+        this.avatar = avatar;
     }
 
     /**
@@ -36,11 +37,10 @@ export default class User {
     }
 
     update(query, update = {}){
-        return global.db.articles.updateAsync(query, {$set: update});
+        return global.db.users.updateAsync(query, {$set: update});
     }
 
-    insert({phone=this.phone, password=this.password, name=this.name} = {}){
-        const avatar = global.localUrl + '/users/avatar.jpg';
+    insert({phone=this.phone, password=this.password, name=this.name, avatar=this.avatar} = {}){
         return global.db.users.insertAsync({phone, password, name, avatar});
     }
 

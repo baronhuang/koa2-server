@@ -29,8 +29,8 @@ router
     /*发现广场列表查询*/
     .get('/list', async (ctx, next) => {
         const {_id, phone, name} = ctx.query;
-        console.log(ctx.session)
-        const articles = await new Article().find({});
+        console.log(44444)
+        const articles = await new Article().find({publicity: 1});
         if(articles.length > 0){
             let createIds = articles.map((item) => item.createBy);
             createIds  = Array.from(new Set(createIds));
@@ -54,9 +54,6 @@ router
         const createBy = ctx.session.user._id;
         const articles = await new Article().find({createBy});
         if(articles.length > 0){
-            // let createIds = articles.map((item) => item.createBy);
-            // createIds  = Array.from(new Set(createIds));
-            // const users = await new User().find({_id: {$in: createIds}}, {password: 0, createdAt: 0, updatedAt: 0});
             articles.forEach((article, i) => {
                 article.user = ctx.session.user;
             })

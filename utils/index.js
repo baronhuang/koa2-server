@@ -7,6 +7,19 @@ import fs from 'fs'
 
 /*工具类*/
 export default {
+    /*获取本机IP*/
+    getIPAdress(){
+        var interfaces = require('os').networkInterfaces();
+        for(var devName in interfaces){
+            var iface = interfaces[devName];
+            for(var i=0;i<iface.length;i++){
+                var alias = iface[i];
+                if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
+                    return alias.address;
+                }
+            }
+        }
+    },
 
     //创建多层文件夹 同步
     mkdirsSync(dirpath, mode) {
@@ -43,7 +56,7 @@ export default {
                 console.log(targetPath);
                 //copy file
                 fs.createReadStream(streamPath).pipe(fs.createWriteStream(targetPath));
-                resolve({statusCode: 200, url: `${global.localUrl}/${filePath}/${fileName}`});
+                resolve({statusCode: 200, url: `${global.localUrl}${filePath}/${fileName}`});
             }else{
                 resolve({ statusCode: 500, msg: '请选择图片文件格式' });
             }

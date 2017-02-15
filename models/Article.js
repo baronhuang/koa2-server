@@ -38,7 +38,6 @@ export default class Article {
     }
 
     insert({content=this.content, like=this.like, publicity=this.publicity, createBy=this.createBy} = {}){
-        console.log(content, like, publicity, createBy)
         return global.db.articles.insertAsync({content, like, publicity, createBy});
     }
 
